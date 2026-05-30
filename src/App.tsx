@@ -61,8 +61,6 @@ function App() {
   const { scrollYProgress } = useScroll()
   const groupRotation = useTransform(scrollYProgress, [0, 1], [0, 15])
 
-
-
   return (
     <main className='overflow-hidden'>
       <motion.div
