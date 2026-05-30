@@ -61,15 +61,17 @@ function App() {
   const { scrollYProgress } = useScroll()
   const groupRotation = useTransform(scrollYProgress, [0, 1], [0, 15])
 
+
+
   return (
-    <main>
+    <main className='overflow-hidden'>
       <motion.div
         style={{
           rotate: groupRotation,
           position: 'fixed',
           inset: 0,
           pointerEvents: 'none',
-          zIndex: 0,
+          zIndex: 20,
         }}
       >
         {flowerData.map((f, i) => (
@@ -78,28 +80,18 @@ function App() {
       </motion.div>
 
       <section className="relative z-10 flex h-dvh items-center justify-center">
-        <h1 className="text-[#FF6565] text-[22vw] font-damion m-0 pb-[0.3em]">
-          <motion.span
-            initial={{ opacity: 0, y: '0.2em' }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.0, type: 'spring', bounce: 0.1, duration: 1.5 }}
-            style={{ display: 'inline-block' }}
-          >
-            Hi
-          </motion.span>
-          {' '}
-          {'Carly'.split('').map((letter, i) => (
+        <motion.div >
+          <h1 className="text-[#FF6565] text-[22vw] font-damion m-0 pb-[0.3em]">
             <motion.span
-              key={i}
               initial={{ opacity: 0, y: '0.2em' }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.5 + i * 0.15, type: 'spring', bounce: 0.1, duration: 1.1 }}
+              transition={{ delay: 1.0, type: 'spring', bounce: 0.1, duration: 1.5 }}
               style={{ display: 'inline-block' }}
             >
-              {letter}
+              Hi Carly
             </motion.span>
-          ))}
-        </h1>
+          </h1>
+        </motion.div>
       </section>
 
       <section className="relative z-10 flex h-dvh items-center justify-center">
@@ -111,7 +103,7 @@ function App() {
             transition={{ type: 'spring', bounce: 0.1, duration: 1.5 }}
             style={{ display: 'inline-block' }}
           >
-            I'm mesmerized by your existence
+            😭
           </motion.span>
         </h1>
       </section>
