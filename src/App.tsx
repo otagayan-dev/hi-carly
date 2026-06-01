@@ -86,7 +86,7 @@ function App() {
               transition={{ delay: 1.0, type: 'spring', bounce: 0.1, duration: 1.5 }}
               style={{ display: 'inline-block' }}
             >
-              Haha baliw
+              Hahahaha
             </motion.span>
           </h1>
         </motion.div>
