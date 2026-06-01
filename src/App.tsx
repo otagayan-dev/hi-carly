@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform, type MotionValue } from 'motion/react'
+import { motion, useScroll, useTransform } from 'motion/react'
 import flower1 from './assets/flower-1.svg'
 import flower2 from './assets/flower-2.svg'
 import flower3 from './assets/flower-3.svg'
@@ -16,33 +16,34 @@ const flowerData = Array.from({ length: COUNT }, (_, i) => {
   const ry = 35 + ((i * 5) % 26)
   const size = 90 + (i * 14) % 110
   const rotation = (i * 53) % 360
-  const rotationAmount = (15 + ((i * 7) % 30)) * (i % 2 === 0 ? 1 : -1)
+  const rotationDuration = 20 + ((i * 7) % 30)
+  const clockwise = i % 3 !== 0
   return {
     src,
     x: Math.cos(angle) * rx,
     y: Math.sin(angle) * ry,
     size,
     rotation,
-    rotationAmount,
+    rotationDuration,
+    clockwise,
   }
 })
 
 type FlowerDatum = (typeof flowerData)[0]
 
-function FlowerItem({ f, i, scrollYProgress }: { f: FlowerDatum; i: number; scrollYProgress: MotionValue<number> }) {
-  const rotate = useTransform(scrollYProgress, [0, 1], [f.rotation, f.rotation + f.rotationAmount])
+function FlowerItem({ f, i }: { f: FlowerDatum; i: number }) {
+  const target = f.clockwise ? f.rotation + 360 : f.rotation - 360
 
   return (
     <motion.img
       src={f.src}
       alt=""
-      initial={{ scale: 0, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
+      initial={{ scale: 0, opacity: 0, rotate: f.rotation }}
+      animate={{ scale: 1, opacity: 1, rotate: target }}
       transition={{
-        delay: i * 0.04,
-        type: 'spring',
-        stiffness: 180,
-        damping: 14,
+        scale: { delay: i * 0.04, type: 'spring', stiffness: 180, damping: 14 },
+        opacity: { delay: i * 0.04, duration: 0.6 },
+        rotate: { duration: f.rotationDuration, repeat: Infinity, ease: 'linear' },
       }}
       style={{
         position: 'absolute',
@@ -51,7 +52,6 @@ function FlowerItem({ f, i, scrollYProgress }: { f: FlowerDatum; i: number; scro
         left: `calc(50% + ${f.x}vw - ${f.size / 2}px)`,
         top: `calc(50% + ${f.y}vh - ${f.size / 2}px)`,
         objectFit: 'contain',
-        rotate,
       }}
     />
   )
@@ -62,7 +62,7 @@ function App() {
   const groupRotation = useTransform(scrollYProgress, [0, 1], [0, 15])
 
   return (
-    <main className='overflow-hidden'>
+    <main className="overflow-hidden">
       <motion.div
         style={{
           rotate: groupRotation,
@@ -73,12 +73,12 @@ function App() {
         }}
       >
         {flowerData.map((f, i) => (
-          <FlowerItem key={i} f={f} i={i} scrollYProgress={scrollYProgress} />
+          <FlowerItem key={i} f={f} i={i} />
         ))}
       </motion.div>
 
       <section className="relative z-10 flex h-dvh items-center justify-center">
-        <motion.div >
+        <motion.div>
           <h1 className="text-[#FF6565] text-[22vw] font-damion m-0 pb-[0.3em]">
             <motion.span
               initial={{ opacity: 0, y: '0.2em' }}
@@ -90,20 +90,6 @@ function App() {
             </motion.span>
           </h1>
         </motion.div>
-      </section>
-
-      <section className="relative z-10 flex h-dvh items-center justify-center">
-        <h1 className="text-[#FF6565] text-[22vw] font-damion m-0 pb-[0.3em]">
-          <motion.span
-            initial={{ opacity: 0, y: '0.2em' }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.5 }}
-            transition={{ type: 'spring', bounce: 0.1, duration: 1.5 }}
-            style={{ display: 'inline-block' }}
-          >
-            😭
-          </motion.span>
-        </h1>
       </section>
     </main>
   )
