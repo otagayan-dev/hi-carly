@@ -1,4 +1,5 @@
 import { motion, useScroll, useTransform } from 'motion/react'
+import dance from './assets/dance.mp4'
 import flower1 from './assets/flower-1.svg'
 import flower2 from './assets/flower-2.svg'
 import flower3 from './assets/flower-3.svg'
@@ -12,8 +13,8 @@ const COUNT = 60
 const flowerData = Array.from({ length: COUNT }, (_, i) => {
   const src = FLOWERS[i % FLOWERS.length]
   const angle = (i / COUNT) * 2 * Math.PI + (i % 2 === 0 ? 0.15 : -0.15)
-  const rx = 55 + ((i * 5) % 26)
-  const ry = 35 + ((i * 5) % 26)
+  const rx = 65 + ((i * 5) % 26)
+  const ry = 45 + ((i * 5) % 26)
   const size = 90 + (i * 14) % 110
   const rotation = (i * 53) % 360
   const rotationDuration = 20 + ((i * 7) % 30)
@@ -76,20 +77,33 @@ function App() {
           <FlowerItem key={i} f={f} i={i} />
         ))}
       </motion.div>
-
-      <section className="relative z-10 flex h-dvh items-center justify-center">
+       <section className="relative z-10 flex h-dvh items-center justify-center">
         <motion.div>
           <h1 className="text-[#FF6565] text-[22vw] font-damion m-0 pb-[0.3em]">
             <motion.span
               initial={{ opacity: 0, y: '0.2em' }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.0, type: 'spring', bounce: 0.1, duration: 1.5 }}
-              style={{ display: 'inline-block' }}
+              style={{ display: 'inline-block', textAlign:'center' }}
             >
-              Hahahaha
+              Hahahaha ↓
             </motion.span>
           </h1>
         </motion.div>
+      </section>
+
+      <section className="relative z-10 flex h-dvh items-center justify-center">
+        <motion.video
+          src={dance}
+          autoPlay
+          loop
+          muted
+          playsInline
+          initial={{ opacity: 0, y: '0.2em' }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.0, type: 'spring', bounce: 0.1, duration: 1.5 }}
+          style={{height:"100vh", objectFit:'cover'}}
+        />
       </section>
     </main>
   )
