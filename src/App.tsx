@@ -123,6 +123,20 @@ function App() {
           </h1>
         </motion.div>
       </section>
+         <section className="relative z-10 flex-1 flex h-dvh items-center justify-center">
+        <motion.div>
+          <h1 className="text-[#FF6565] text-[19vw] font-damion m-0 pb-[0.3em]">
+            <motion.span
+              initial={{ opacity: 0, y: '0.2em' }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.0, type: 'spring', bounce: 0.1, duration: 1.5 }}
+              style={{ display: 'inline-block', textAlign:'center' }}
+            >
+              hahahaha
+            </motion.span>
+          </h1>
+        </motion.div>
+      </section>
       
     </main>
     
