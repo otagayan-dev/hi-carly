@@ -6,16 +6,17 @@ import flower3 from './assets/flower-3.svg'
 import flower4 from './assets/flower-4.svg'
 import flower5 from './assets/flower-5.svg'
 import flower6 from './assets/flower-6.svg'
+import flower7 from './assets/flower-7.svg'
 
-const FLOWERS = [flower1, flower2, flower3, flower4, flower5, flower6]
+const FLOWERS = [flower1, flower2, flower3, flower4, flower5, flower6, flower7]
 const COUNT = 60
 
 const flowerData = Array.from({ length: COUNT }, (_, i) => {
   const src = FLOWERS[i % FLOWERS.length]
   const angle = (i / COUNT) * 2 * Math.PI + (i % 2 === 0 ? 0.15 : -0.15)
   const rx = 65 + ((i * 5) % 26)
-  const ry = 45 + ((i * 5) % 26)
-  const size = 90 + (i * 14) % 110
+  const ry = 40 + ((i * 5) % 26)
+  const size = 60 + (i * 14) % 150
   const rotation = (i * 53) % 360
   const rotationDuration = 20 + ((i * 7) % 30)
   const clockwise = i % 3 !== 0
@@ -86,7 +87,7 @@ function App() {
               transition={{ delay: 1.0, type: 'spring', bounce: 0.1, duration: 1.5 }}
               style={{ display: 'inline-block', textAlign:'center' }}
             >
-              Hahahaha
+              It's You
             </motion.span>
           </h1>
         </motion.div>
@@ -105,7 +106,22 @@ function App() {
           style={{width:'100vh', height:'100vw', objectFit:'cover', transform:'rotate(90deg)'}}
         />
       </section>
+       <section className="relative z-10 flex-1 flex h-dvh items-center justify-center">
+        <motion.div>
+          <h1 className="text-[#FF6565] text-[22vw] font-damion m-0 pb-[0.3em]">
+            <motion.span
+              initial={{ opacity: 0, y: '0.2em' }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.0, type: 'spring', bounce: 0.1, duration: 1.5 }}
+              style={{ display: 'inline-block', textAlign:'center' }}
+            >
+              who I want
+            </motion.span>
+          </h1>
+        </motion.div>
+      </section>
     </main>
+    
   )
 }
 
