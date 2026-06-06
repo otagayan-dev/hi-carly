@@ -1,5 +1,8 @@
+import { useState, useEffect } from 'react'
 import { motion, useScroll, useTransform } from 'motion/react'
 import dance from './assets/dance.mp4'
+import march from "./assets/march.mp4"
+import you from './assets/you.jpeg'
 import flower1 from './assets/flower-1.svg'
 import flower2 from './assets/flower-2.svg'
 import flower3 from './assets/flower-3.svg'
@@ -35,7 +38,7 @@ const flowerData = Array.from({ length: COUNT }, (_, i) => {
 
 type FlowerDatum = (typeof flowerData)[0]
 
-function FlowerItem({ f }: { f: FlowerDatum }) {
+function FlowerItem({ f, popped }: { f: FlowerDatum; popped: boolean }) {
   const target = f.clockwise ? f.rotation + 360 : f.rotation - 360
 
   return (
@@ -43,10 +46,10 @@ function FlowerItem({ f }: { f: FlowerDatum }) {
       src={f.src}
       alt=""
       initial={{ scale: 0, opacity: 0, rotate: f.rotation }}
-      animate={{ scale: 1, opacity: 1, rotate: target }}
+      animate={popped ? { opacity: 0, scale: 1, rotate: target } : { scale: 1, opacity: 1, rotate: target }}
       transition={{
         scale: { delay: f.delay, type: 'spring', stiffness: 180, damping: 14 },
-        opacity: { delay: f.delay, duration: 0.6 },
+        opacity: { delay: popped ? f.delay * 0.4 : f.delay, duration: 0.5 },
         rotate: { duration: f.rotationDuration, repeat: Infinity, ease: 'linear' },
       }}
       style={{
@@ -64,6 +67,13 @@ function FlowerItem({ f }: { f: FlowerDatum }) {
 function App() {
   const { scrollYProgress } = useScroll()
   const groupRotation = useTransform(scrollYProgress, [0, 1], [0, 15])
+  const [flowersPopped, setFlowersPopped] = useState(false)
+
+  useEffect(() => {
+    return scrollYProgress.on('change', (v) => {
+      setFlowersPopped(v >= 0.85)
+    })
+  }, [scrollYProgress])
 
   return (
     <main className="overflow-hidden">
@@ -77,19 +87,19 @@ function App() {
         }}
       >
         {flowerData.map((f, i) => (
-          <FlowerItem key={i} f={f} />
+          <FlowerItem key={i} f={f} popped={flowersPopped} />
         ))}
       </motion.div>
-       <section className="relative z-10 flex-1 flex h-dvh items-center justify-center">
+      <section className="relative z-10 flex-1 flex h-dvh items-center justify-center">
         <motion.div>
           <h1 className="text-[#FF6565] text-[22vw] font-damion m-0 pb-[0.3em]">
             <motion.span
               initial={{ opacity: 0, y: '0.2em' }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.0, type: 'spring', bounce: 0.1, duration: 1.5 }}
-              style={{ display: 'inline-block', textAlign:'center' }}
+              style={{ display: 'inline-block', textAlign: 'center' }}
             >
-              It's You
+              I'm happy
             </motion.span>
           </h1>
         </motion.div>
@@ -105,41 +115,93 @@ function App() {
           initial={{ opacity: 0, y: '0.2em' }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.0, type: 'spring', bounce: 0.1, duration: 1.5 }}
-          style={{width:'100vh', height:'100vw', objectFit:'cover', transform:'rotate(90deg)'}}
+          style={{ width: '100vh', height: '100vw', objectFit: 'cover', transform: 'rotate(90deg)' }}
         />
       </section>
 
-       <section className="relative z-10 flex-1 flex h-dvh items-center justify-center">
+      <section className="relative z-10 flex-1 flex h-dvh items-center justify-center">
         <motion.div>
-          <h1 className="text-[#FF6565] text-[19vw] font-damion m-0 pb-[0.3em]">
+          <h1 className="text-[#FF6565] text-[13vw] leading-14 font-damion m-0 pb-[0.3em]">
             <motion.span
               initial={{ opacity: 0, y: '0.2em' }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.0, type: 'spring', bounce: 0.1, duration: 1.5 }}
-              style={{ display: 'inline-block', textAlign:'center' }}
+              style={{ display: 'inline-block', textAlign: 'center' }}
             >
-              I know It's You
+              Just knowing that you exist makes me happy
             </motion.span>
           </h1>
         </motion.div>
       </section>
-         <section className="relative z-10 flex-1 flex h-dvh items-center justify-center">
+      <section className="relative z-10 flex h-dvh items-center justify-center">
+        <motion.video
+          src={march}
+          autoPlay
+          loop
+          muted
+          playsInline
+          initial={{ opacity: 0, y: '0.2em' }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.0, type: 'spring', bounce: 0.1, duration: 1.5 }}
+          style={{ width: '100vh', height: '100vw', objectFit: 'cover', transform: 'rotate(90deg)' }}
+        />
+      </section>
+      <section className="relative z-10 flex-1 flex h-dvh items-center justify-center">
+        <motion.div>
+          <h1 className="text-[#FF6565] text-[17vw] leading-16 font-damion m-0 pb-[0.3em]">
+            <motion.span
+              initial={{ opacity: 0, y: '0.2em' }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.0, type: 'spring', bounce: 0.1, duration: 1.5 }}
+              style={{ display: 'inline-block', textAlign: 'center' }}
+            >
+              The most beautiful creation in every world
+            </motion.span>
+          </h1>
+        </motion.div>
+      </section>
+      <section className="relative z-10 flex-1 flex h-dvh items-center justify-center">
         <motion.div>
           <h1 className="text-[#FF6565] text-[19vw] font-damion m-0 pb-[0.3em]">
             <motion.span
               initial={{ opacity: 0, y: '0.2em' }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.0, type: 'spring', bounce: 0.1, duration: 1.5 }}
-              style={{ display: 'inline-block', textAlign:'center' }}
+              style={{ display: 'inline-block', textAlign: 'center' }}
             >
               hahahaha
             </motion.span>
           </h1>
         </motion.div>
       </section>
-      
+      <section className="relative z-10 flex-1 flex h-dvh items-center justify-center">
+        <motion.div>
+          <h1 className="text-[#FF6565] text-[19vw] font-damion m-0 pb-[0.3em]">
+            <motion.span
+              initial={{ opacity: 0, y: '0.2em' }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.0, type: 'spring', bounce: 0.1, duration: 1.5 }}
+              style={{ display: 'inline-block', textAlign: 'center' }}
+            >
+              baliw
+            </motion.span>
+          </h1>
+        </motion.div>
+      </section>
+
+      <section className="relative z-10 flex h-dvh items-center justify-center">
+        <motion.img
+          src={you}
+          alt="you"
+          initial={{ opacity: 0, y: '0.2em' }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.0, type: 'spring', bounce: 0.1, duration: 1.5 }}
+          style={{ maxWidth: '100vw', maxHeight: '100vh', objectFit: 'contain' }}
+        />
+      </section>
+
     </main>
-    
+
   )
 }
 
