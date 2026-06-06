@@ -160,7 +160,7 @@ function App() {
           </h1>
         </motion.div>
       </section>
-      <section className="relative z-10 flex-1 flex h-dvh items-center justify-center">
+      {/* <section className="relative z-10 flex-1 flex h-dvh items-center justify-center">
         <motion.div>
           <h1 className="text-[#FF6565] text-[19vw] font-damion m-0 pb-[0.3em]">
             <motion.span
@@ -187,7 +187,7 @@ function App() {
             </motion.span>
           </h1>
         </motion.div>
-      </section>
+      </section> */}
 
       <section className="relative z-10 flex h-dvh items-center justify-center">
         <motion.img
